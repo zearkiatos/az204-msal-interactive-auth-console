@@ -7,7 +7,7 @@ build() {
 }
 
 docker-up() {
-    docker-compose up -d
+    docker-compose up --build
 }
 
 docker-down() {
@@ -15,7 +15,7 @@ docker-down() {
 }
 
 podman-up() {
-    podman-compose up -d
+    podman-compose up --build
 }
 
 podman-down() {

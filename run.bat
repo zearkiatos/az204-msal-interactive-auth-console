@@ -15,7 +15,7 @@ if "%1"=="build" (
 )
 
 if "%1"=="docker-up" (
-    docker-compose up -d
+    docker-compose up --build
     goto end
 )
 
@@ -25,7 +25,7 @@ if "%1"=="docker-down" (
 )
 
 if "%1"=="podman-up" (
-    podman-compose up -d
+    podman-compose up --build
     goto end
 )
 

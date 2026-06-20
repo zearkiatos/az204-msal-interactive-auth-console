@@ -1,26 +1,20 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0
 
 WORKDIR /app
 
 RUN apt-get update && \
-    apt-get upgrade -y
-
-COPY . /app
-
-RUN dotnet build MSALInteractiveAuthConsole.csproj
-
-FROM mcr.microsoft.com/dotnet/runtime:8.0
-
-WORKDIR /app
+    apt-get upgrade -y && \
+    apt-get install -y bash
 
 RUN groupadd -r -g 10001 appGrp && \
-    useradd -r -u 10000 -s /sbin/nologin -g appGrp appuser
+    useradd -r -u 10000 -m -d /home/appuser -s /sbin/nologin -g appGrp appuser && \
+    chown -R appuser:appGrp /home/appuser
 
-COPY --from=build /app/bin/Release/net8.0 /app
+COPY . /app
+COPY ./docker/docker-entrypoint.sh /app/
 
-RUN chown -R appuser:appGrp /app && \
-    chmod -R 755 /app
+RUN chown -R appuser:appGrp /app
 
 USER appuser
 
-ENTRYPOINT ["dotnet", "MSALInteractiveAuthConsole.dll"]
+ENTRYPOINT ["dotnet", "run", "--project", "MSALInteractiveAuthConsole.csproj"]
