@@ -1,0 +1,23 @@
+run() {
+    dotnet run --project ApplicationInsightsSimpleApi.csproj
+}
+
+build() {
+    dotnet build ApplicationInsightsSimpleApi.csproj
+}
+
+docker-up() {
+    docker-compose up --build
+}
+
+docker-down() {
+    docker-compose down
+}
+
+podman-up() {
+    podman-compose up --build
+}
+
+podman-down() {
+    podman-compose down
+}
